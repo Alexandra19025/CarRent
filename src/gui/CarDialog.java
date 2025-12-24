@@ -178,6 +178,9 @@ public class CarDialog extends JDialog {
     public boolean isSaved(){
         return saved;
     }
+    public Car getCar(){
+        return car;
+    }
 
 
 }

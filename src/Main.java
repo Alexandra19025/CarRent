@@ -3,13 +3,15 @@ import api.services.AllCars;
 import api.services.AllClients;
 import api.services.CarHelper;
 import gui.CarsFrame;
+
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        CarHelper carHelper=new CarHelper();
+       CarHelper carHelper=new CarHelper();
         AllCars allCars;
         AllClients allClients = new AllClients();
         try{
@@ -22,7 +24,8 @@ public class Main {
             System.out.println("Error in reading from file: "+e.getMessage());
             return;
         }
-        new CarsFrame();
+        CarsFrame carsFrame=new CarsFrame();
+        carsFrame.setVisible(true);
 
     }
 }

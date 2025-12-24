@@ -22,6 +22,16 @@ public class CarsFrame extends JFrame {
         public CarsFrame() {
                  carHelper=new CarHelper();
                 initializeFrame();
+                loadCarsData();
+                initComponents();
+
+        }
+        private void initComponents(){
+                JPanel tablePanel=createTablePanel();
+                JPanel buttonPanel=createButtonPanel();
+                add(new JScrollPane(tablePanel),BorderLayout.CENTER);
+                add(buttonPanel,BorderLayout.SOUTH);
+                setupListeners();
         }
         public void initializeFrame(){
                 setTitle("Διαχείριση αυτοκινήτων");
@@ -99,12 +109,15 @@ public class CarsFrame extends JFrame {
                 CarDialog dialog=new CarDialog(this,null);
                 dialog.setVisible(true);
                 if(dialog.isSaved()){
-
+                        Car newCar=dialog.getCar();
+                        if(allCars.addCar(newCar)){
+                                loadCarsToTable();
+                        }
                 }
         }
 
 
-        /*public JPanel createFilterPanel() {
+       /* public JPanel createFilterPanel() {
                 JPanel panel = new JPanel(new GridLayout());
                 panel.setBorder(BorderFactory.createTitledBorder("Φίλτρα αναζήτησης"));
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -126,8 +139,8 @@ public class CarsFrame extends JFrame {
                 searchButton.addActionListener(e -> applyFilters());
                 panel.add(searchButton, gbc);
                 return panel;
-        }
-        private void applyFilters(){
+        }*/
+      /*  private void applyFilters(){
 
         }*/
 
@@ -146,5 +159,23 @@ public class CarsFrame extends JFrame {
 
                 return panel;
         }
+         private JPanel createTablePanel(){
+                JPanel panel=new JPanel(new BorderLayout());
+                panel.setBorder(BorderFactory.createTitledBorder("Λίστα Αυτοκινήτων"));
+                tableModel=new DefaultTableModel(COLUMN_CARS,0);
+                carsTable=new JTable(tableModel);
+                carsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+                 carsTable.getColumnModel().getColumn(0).setPreferredWidth(50);//ID
+                 carsTable.getColumnModel().getColumn(1).setPreferredWidth(100);//Πινακίδα
+                 carsTable.getColumnModel().getColumn(2).setPreferredWidth(100);//Μάρκα
+                 carsTable.getColumnModel().getColumn(3).setPreferredWidth(80);//Τύπος
+                 carsTable.getColumnModel().getColumn(4).setPreferredWidth(120);//Μοντέλο
+                 carsTable.getColumnModel().getColumn(5).setPreferredWidth(60);//Έτος
+                 carsTable.getColumnModel().getColumn(6).setPreferredWidth(80);//Χρώμα
+                 carsTable.getColumnModel().getColumn(7).setPreferredWidth(100);//Κατάσταση
+
+                 return panel;
+         }
 
 }
