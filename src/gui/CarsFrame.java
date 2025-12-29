@@ -150,6 +150,7 @@ public class CarsFrame extends JFrame {
                     car.getSituation()
             });
         }
+        tableModel.fireTableDataChanged();
     }
 
     /**
@@ -255,15 +256,22 @@ public class CarsFrame extends JFrame {
         String carId = (String) tableModel.getValueAt(selectedRow, 0);
         Car selectedCar = allCars.getCar(carId);
 
-        CarDialog dialog = new CarDialog(this, selectedCar);
+        CarDialog dialog=new CarDialog(this,selectedCar);
         dialog.setVisible(true);
-        if (dialog.isSaved()) {
-            Car updatedCar = dialog.getCar();
-            // Ενημέρωση του αυτοκινήτου
+        if(dialog.isSaved()){
+            Car updatedCar=dialog.getCar();
+            if (!carId.equals(updatedCar.getId())) {
+                System.out.println("To id δεν αλλάζει!");
+                return;
+            }
             allCars.getAllCars().put(carId, updatedCar);
             refreshTable();
-            JOptionPane.showMessageDialog(this, "Οι αλλαγές αποθηκεύτηκαν.", "Επιτυχία", JOptionPane.INFORMATION_MESSAGE);
+            SwingUtilities.invokeLater(() -> {
+                carTable.revalidate();
+                carTable.repaint();
+            });
         }
+
     }
 
     /**

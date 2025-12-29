@@ -191,7 +191,7 @@ public class CarDialog extends JDialog {
             showError("Το έτος πρέπει να είναι αριθμός.");
             return;
         }
-        this.car=new Car(idField.getText().trim(),plateField.getText().trim(),brandField.getText().trim(),typeField.getText().trim(),modelField.getText().trim(),year,colorField.getText().trim(),situationField.getText().trim());
+        car=new Car(idField.getText().trim(),plateField.getText().trim(),brandField.getText().trim(),typeField.getText().trim(),modelField.getText().trim(),year,colorField.getText().trim(),situationField.getText().trim());
         saved=true;
         dispose();
     }
