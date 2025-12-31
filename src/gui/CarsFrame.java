@@ -57,21 +57,8 @@ public class CarsFrame extends JFrame {
     private void initComponents() {
         setLayout(new BorderLayout(10, 10));
 
-        // Πάνελ μενού
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("Αρχείο");
-
-        JMenuItem loadFromCSVItem = new JMenuItem("Φόρτωση από CSV");
-        loadFromCSVItem.addActionListener(e -> loadFromCSV());
-        fileMenu.add(loadFromCSVItem);
-
-        JMenuItem saveToBinaryItem = new JMenuItem("Αποθήκευση σε Binary");
-        saveToBinaryItem.addActionListener(e -> saveToBinary());
-        fileMenu.add(saveToBinaryItem);
-
-        JMenuItem loadFromBinaryItem = new JMenuItem("Φόρτωση από Binary");
-        loadFromBinaryItem.addActionListener(e -> loadFromBinary());
-        fileMenu.add(loadFromBinaryItem);
 
         JMenuItem exitItem = new JMenuItem("Έξοδος");
         exitItem.addActionListener(e -> dispose());
@@ -80,7 +67,6 @@ public class CarsFrame extends JFrame {
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
 
-        // Πάνελ αναζήτησης
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.add(new JLabel("Αναζήτηση:"));
         searchComboBox = new JComboBox<>(new String[]{"Όλα", "ID", "Πινακίδα", "Μάρκα", "Τύπος", "Μοντέλο", "Χρώμα", "Κατάσταση"});
@@ -108,7 +94,6 @@ public class CarsFrame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(carTable);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Κουμπιά διαχείρισης
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         JButton addButton = new JButton("Προσθήκη Αυτοκινήτου");
@@ -162,7 +147,7 @@ public class CarsFrame extends JFrame {
 
         tableModel.setRowCount(0);
 
-        for (Car car : allCars.getAllCars().values()) {
+        for (Car car :allCars.getAllCars().values()) {
             boolean match = false;
 
             if (searchText.isEmpty()) {
@@ -297,79 +282,8 @@ public class CarsFrame extends JFrame {
         }
     }
 
-    /**
-     * Φόρτωση αρχείου τύπου CSV
-     */
-    private void loadFromCSV() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Επιλογή CSV αρχείου");
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("CSV Files", "csv"));
 
-        int result = fileChooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            try {
-                AllCars loadedCars = carHelper.readFromFileCars(fileChooser.getSelectedFile().getPath());
-                allCars.getAllCars().clear();
-                allCars.getAllCars().putAll(loadedCars.getAllCars());
-                refreshTable();
-                JOptionPane.showMessageDialog(this,
-                        "Φορτώθηκαν " + allCars.getAllCars().size() + " αυτοκίνητα από το CSV αρχείο.",
-                        "Επιτυχία",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this,
-                        "Σφάλμα κατά τη φόρτωση: " + e.getMessage(),
-                        "Σφάλμα",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
 
-    /**
-     * Αποθήκευση δυαδικού αρχείου
-     */
-    private void saveToBinary() {
-        try {
-            carHelper.saveToBinary(allCars);
-            JOptionPane.showMessageDialog(this,
-                    "Τα δεδομένα αποθηκεύτηκαν επιτυχώς στο binary αρχείο.",
-                    "Επιτυχία",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Σφάλμα κατά την αποθήκευση: " + e.getMessage(),
-                    "Σφάλμα",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Φόρτωση αυτοκίνητων από δυαδικό αρχείο
-     */
-    private void loadFromBinary() {
-        try {
-            AllCars loadedCars=carHelper.loadFromBinaryFile();
-
-            // Αφαίρεση των υπαρχόντων αυτοκινήτων
-            allCars.getAllCars().clear();
-
-            // Προσθήκη των φορτωμένων αυτοκινήτων
-            for (Car car : loadedCars.getAllCars().values()) {
-                allCars.addCar(car);
-            }
-
-            refreshTable();
-            JOptionPane.showMessageDialog(this,
-                    "Φορτώθηκαν " + allCars.getAllCars().size() + " αυτοκίνητα από το binary αρχείο.",
-                    "Επιτυχία",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }catch(Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Σφάλμα κατά τη φόρτωση: " + e.getMessage(),
-                    "Σφάλμα",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
 
 }
