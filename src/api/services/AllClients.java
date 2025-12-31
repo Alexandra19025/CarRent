@@ -61,15 +61,11 @@ public class AllClients {
 
     /**
      * Αναζήτηση με βάση το τηλέφωνο του πελάτη.
+     *
      * @param phone Το τηλέφωνο
      * @return Τον συγκεκριμένο πελάτη που ψάχνουμε
      */
     public Client searchClientByPhone(String phone) {
-        for (Client c : clients) {
-            if(c.getPhone().equals(phone)) {
-                return c;
-            }
-        }
         return null;
     }
     public HashSet<Client> getAllClients(){
