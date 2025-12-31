@@ -52,7 +52,7 @@ public class AllClients {
     public HashSet<Client> searchByName(String firstName, String lastName) {
         HashSet<Client> clientsByName = new HashSet<>();
         for (Client c : clients) {
-            if(firstName.equals(c.getFirst_name()) && lastName.equals(c.getLast_name())) {
+            if(firstName.equals(c.getFirstName()) && lastName.equals(c.getLastName())) {
                  addClient(c);
             }
         }

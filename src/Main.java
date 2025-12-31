@@ -3,6 +3,7 @@ import api.services.AllCars;
 import api.services.AllClients;
 import api.services.CarHelper;
 import gui.CarsFrame;
+import gui.ClientFrame;
 
 import javax.swing.*;
 import java.io.*;
@@ -24,8 +25,9 @@ public class Main {
             System.out.println("Error in reading from file: "+e.getMessage());
             return;
         }
-        CarsFrame carsFrame=new CarsFrame(allCars);
-        carsFrame.setVisible(true);
-
+        //CarsFrame carsFrame=new CarsFrame(allCars);
+        //carsFrame.setVisible(true);
+        ClientFrame clientFrame=new ClientFrame(allClients);
+        clientFrame.setVisible(true);
     }
 }

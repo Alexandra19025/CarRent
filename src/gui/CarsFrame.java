@@ -230,7 +230,7 @@ public class CarsFrame extends JFrame {
      * Προσθήκη αυτοκινήτου και έλεγχος για το αν υπάρχει ήδη
      */
     private void addCar() {
-        CarDialog dialog = new CarDialog(this, null);
+        CarDialog dialog = new CarDialog(this, null,allCars);
         dialog.setVisible(true);
         if (dialog.isSaved()) {
             Car newCar = dialog.getCar();
@@ -256,7 +256,7 @@ public class CarsFrame extends JFrame {
         String carId = (String) tableModel.getValueAt(selectedRow, 0);
         Car selectedCar = allCars.getCar(carId);
 
-        CarDialog dialog=new CarDialog(this,selectedCar);
+        CarDialog dialog=new CarDialog(this,selectedCar,allCars);
         dialog.setVisible(true);
         if(dialog.isSaved()){
             Car updatedCar=dialog.getCar();

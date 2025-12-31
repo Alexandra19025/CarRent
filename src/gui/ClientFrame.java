@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import static java.lang.Integer.parseInt;
 
 /**
  * Κλάση αυτή δημιουργεί πλαίσιο αλληλεπίδρασης με τον χρήστη για τη διαχείριση πελατών, όπως προσθήκη πελάτη, επεξεργασία, ανανέωση,
@@ -78,7 +77,7 @@ public class ClientFrame extends JFrame {
 
         add(searchPanel, BorderLayout.NORTH);
 
-        String[] columns = {"ΑΦΜ","Ονοματεπώνυμο","Τηλέφωνο"};
+        String[] columns = {"ΑΦΜ","Όνομα","Επώνυμο","Τηλέφωνο","Email"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -92,7 +91,7 @@ public class ClientFrame extends JFrame {
         // Κουμπιά διαχείρισης
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
-        JButton addButton = new JButton("Προσθήκη Πελάτης");
+        JButton addButton = new JButton("Προσθήκη Πελάτη");
         addButton.addActionListener(e -> addClient());
         buttonPanel.add(addButton);
 
@@ -116,10 +115,10 @@ public class ClientFrame extends JFrame {
     private void refreshTable() {
         tableModel.setRowCount(0);
         for (Client client:allClients.getAllClients()) {
-             Object[] rowData={
+            Object[] rowData={
                     client.getAFM(),
-                    client.getFirst_name(),
-                    client.getLast_name(),
+                    client.getFirstName(),
+                    client.getLastName(),
                     client.getEmail(),
                     client.getPhone()};
             tableModel.addRow(rowData);
@@ -128,7 +127,7 @@ public class ClientFrame extends JFrame {
     }
 
     /**
-     * Αναζήτηση αυτοκινήτου
+     * Αναζήτηση πελάτη
      */
     private void searchClients() {
         String searchText = searchField.getText().trim().toLowerCase();
@@ -145,8 +144,8 @@ public class ClientFrame extends JFrame {
                 switch (searchType) {
                     case "Όλα":
                         match = client.getAFM().toLowerCase().contains(searchText) ||
-                                client.getFirst_name().toLowerCase().contains(searchText) ||
-                                client.getLast_name().toLowerCase().contains(searchText) ||
+                                client.getFirstName().toLowerCase().contains(searchText) ||
+                                client.getLastName().toLowerCase().contains(searchText) ||
                                 client.getPhone().toLowerCase().contains(searchText) ||
                                 client.getEmail().toLowerCase().contains(searchText);
                         break;
@@ -154,10 +153,10 @@ public class ClientFrame extends JFrame {
                         match=client.getAFM().toLowerCase().contains(searchText);
                         break;
                     case "Όνομα":
-                        match = client.getFirst_name().toLowerCase().contains(searchText);
+                        match = client.getFirstName().toLowerCase().contains(searchText);
                         break;
                     case "Επώνυμο":
-                        match =client.getLast_name().toLowerCase().contains(searchText);
+                        match =client.getLastName().toLowerCase().contains(searchText);
                         break;
                     case "Τηλέφωνο":
                         match = client.getPhone().toLowerCase().contains(searchText);
@@ -171,8 +170,8 @@ public class ClientFrame extends JFrame {
             if (match) {
                 tableModel.addRow(new Object[]{
                         client.getAFM().trim(),
-                        client.getFirst_name().trim(),
-                        client.getLast_name().trim(),
+                        client.getFirstName().trim(),
+                        client.getLastName().trim(),
                         client.getPhone().trim(),
                         client.getEmail().trim()
                 });
@@ -192,8 +191,8 @@ public class ClientFrame extends JFrame {
     /**
      * Προσθήκη πελάτη και έλεγχος για το αν υπάρχει ήδη
      */
-   private void addClient() {
-        ClientDialog dialog = new ClientDialog(this, null);
+    private void addClient() {
+        ClientDialog dialog = new ClientDialog(this, null,allClients);
         dialog.setVisible(true);
         if (dialog.isSaved()) {
             Client newClient = dialog.getClient();
@@ -219,7 +218,7 @@ public class ClientFrame extends JFrame {
         String clientAFM = (String) tableModel.getValueAt(selectedRow, 0);
         Client selectedClient = allClients.searchClientByAFM(clientAFM);
 
-        ClientDialog dialog=new ClientDialog(this,selectedClient);
+        ClientDialog dialog=new ClientDialog(this,selectedClient,allClients);
         dialog.setVisible(true);
         if(dialog.isSaved()){
             Client updatedClient=dialog.getClient();
