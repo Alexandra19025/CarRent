@@ -39,7 +39,7 @@ public class CarHelper {
                     throw new Exception("Στη γραμμή "+numberOfLine+" υπάρχουν λιγότερα πεδία!");
                 }
                 String id = tokens[0].trim();
-                if (allCars.getCar(id)!=null) {
+                if (allCars.searchCarById(id)!=null) {
                     throw new Exception("Διπλό id αυτοκινήτου: " + id+" στη γραμμή "+numberOfLine);
                 }
                 String plate = tokens[1].trim();

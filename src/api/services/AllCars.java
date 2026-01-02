@@ -41,7 +41,7 @@ public class AllCars {
      * @param id ID
      * @return Το συγκεκριμένο αυτοκίνητο που θέλουμε ή null
      */
-    public Car getCar(String id) {
+    public Car searchCarById(String id) {
         for(Car car : allCars.values()) {
             if(car.getId().equals(id)) {
                 return car;
@@ -51,45 +51,37 @@ public class AllCars {
     }
 
     /**
-     * Αναζήτηση αυτοκινήτου με βάση τη μάρκα, το μοντέλο, το χρώμα, την κατάσταση μεμονωμένα ή σε συνδυασμό.
-     * @param carBrand Μάρκα αυτοκινήτου
-     * @param carModel Μοντέλο αυτοκινήτου
-     * @param carColor Χρώμα αυτοκινήτου
-     * @param carSituation Κατάσταση αυτοκινήτου
+     * Αναζήτηση αυτοκινήτου με βάση την πινακίδα, τη μάρκα, το μοντέλο, το χρώμα, την κατάσταση μεμονωμένα ή σε συνδυασμό.
+     * @param text οι παράμετροι του αυτοκινήτου
+
      * @return Σύνολο από αυτοκίνητα που πληρούν αυτά που δόθηκαν από τις παραμέτρους ταυτόχρονα.
      */
-    public HashSet<Car> getCar(String carBrand, String carModel, String carColor, String carSituation) {
-        HashSet<Car> carSet = new HashSet<>();
+    public boolean getCar(Car car,String text) {
+        String[] param=text.trim().toLowerCase().split(" ");
+        int i=0,p=0;
 
-        for(Car c : allCars.values()) {
-            boolean flag = true;
-            if(carBrand!=null){
-                if(!(c.getCarBrand().equals(carBrand))){
-                    flag = false;
-                }
-            }
-            if(carModel!=null){
-                if(!c.getModel().equals(carModel)) {
-                    flag = false;
-                }
-            }
-            if(carColor!=null){
-                if (!c.getColor().equals(carColor)) {
-                    flag = false;
-                }
-            }
-            if(carSituation!=null){
-                if(!c.getSituation().equals(carSituation)) {
-                    flag = false;
-                }
-
-            }
-            if(flag){
-                carSet.add(c);
+        for(;i<param.length;i++){
+            if(car.getPlate().toLowerCase().contains(param[i].trim())){
+                p++;
+            }else if(car.getCarBrand().toLowerCase().contains(param[i].trim())){
+                p++;
+            } else if (car.getModel().toLowerCase().contains(param[i].trim())) {
+                p++;
+            }else if (car.getColor().toLowerCase().contains(param[i].trim())){
+                p++;
+            } else if (car.getSituation().toLowerCase().contains(param[i].trim())) {
+                p++;
             }
         }
-        return carSet;
+
+        if(p==param.length){
+            return true;
+        }
+        return false;
     }
+
+
+
 
     /**
      * @return Hashmap allCars

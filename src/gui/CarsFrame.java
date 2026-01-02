@@ -24,7 +24,7 @@ public class CarsFrame extends JFrame {
     private DefaultTableModel tableModel;
     //Πεδίο για την αναζήτηση αυτοκίνητου
     private JTextField searchField;
-    //Μενού επιλογών που ο χρήστης διαλέγει μια τιμή από τη λίστα(Όλα, ID, Πινακίδα, Μάρκα, Τύπος, Μοντέλο, Χρώμα, Κατάσταση)
+    //Μενού επιλογών που ο χρήστης διαλέγει μια τιμή από τη λίστα(Όλα, Πινακίδα, Μάρκα, Τύπος, Μοντέλο, Χρώμα, Κατάσταση)
     private JComboBox<String> searchComboBox;
 
 
@@ -61,7 +61,7 @@ public class CarsFrame extends JFrame {
 
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.add(new JLabel("Αναζήτηση:"));
-        searchComboBox = new JComboBox<>(new String[]{"Όλα", "ID", "Πινακίδα", "Μάρκα", "Τύπος", "Μοντέλο", "Χρώμα", "Κατάσταση"});
+        searchComboBox = new JComboBox<>(new String[]{"Όλα","Πινακίδα", "Μάρκα", "Τύπος", "Μοντέλο", "Χρώμα", "Κατάσταση"});
         searchPanel.add(searchComboBox);
         searchField = new JTextField(20);
         searchPanel.add(searchField);
@@ -74,8 +74,7 @@ public class CarsFrame extends JFrame {
 
         add(searchPanel, BorderLayout.NORTH);
 
-        // Πίνακας αυτοκινήτων
-        String[] columns = {"ID", "Πινακίδα", "Μάρκα", "Τύπος", "Μοντέλο", "Έτος", "Χρώμα", "Κατάσταση"};
+        String[] columns = {"ID","Πινακίδα", "Μάρκα", "Τύπος", "Μοντέλο", "Έτος", "Χρώμα", "Κατάσταση"};
         tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -144,16 +143,7 @@ public class CarsFrame extends JFrame {
             } else {
                 switch (searchType) {
                     case "Όλα":
-                        match = car.getId().toLowerCase().contains(searchText) ||
-                                car.getPlate().toLowerCase().contains(searchText) ||
-                                car.getCarBrand().toLowerCase().contains(searchText) ||
-                                car.getType().toLowerCase().contains(searchText) ||
-                                car.getModel().toLowerCase().contains(searchText) ||
-                                car.getColor().toLowerCase().contains(searchText) ||
-                                car.getSituation().toLowerCase().contains(searchText);
-                        break;
-                    case "ID":
-                        match=car.getId().toLowerCase().contains(searchText);
+                        match=allCars.getCar(car,searchText);
                         break;
                     case "Πινακίδα":
                         match = car.getPlate().toLowerCase().contains(searchText);
@@ -229,7 +219,7 @@ public class CarsFrame extends JFrame {
         }
 
         String carId = (String) tableModel.getValueAt(selectedRow, 0);
-        Car selectedCar = allCars.getCar(carId);
+        Car selectedCar = allCars.searchCarById(carId);
 
         CarDialog dialog=new CarDialog(this,selectedCar,allCars);
         dialog.setVisible(true);
