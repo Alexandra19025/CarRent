@@ -21,8 +21,7 @@ public class CarHelper {
      * @return Δομή AllCars που αποθηκεύει όλα τα αυτοκίνητα που διαβάζονται από το αρχείο
      * @throws Exception για μη-αποδεκτές τιμές διαβάσματος
      */
-    public AllCars readFromFileCars(String fileName)throws Exception {
-        AllCars allCars=new AllCars();
+    public void readFromFileCars(String fileName)throws Exception {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             int numberOfLine=0;
@@ -67,7 +66,6 @@ public class CarHelper {
                 allCars.addCar(c);
             }
         }
-        return allCars;
     }
     /**
      * Αποθήκευση όλων των αυτοκινήτων σε αρχείο
