@@ -68,7 +68,7 @@ public class CarsFrame extends JFrame {
 
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchPanel.add(new JLabel("Αναζήτηση:"));
-        searchComboBox = new JComboBox<>(new String[]{"Όλα","Πινακίδα", "Μάρκα", "Τύπος", "Μοντέλο", "Χρώμα", "Κατάσταση"});
+        searchComboBox = new JComboBox<>(new String[]{"Όλα","Πινακίδα", "Μάρκα", "Μοντέλο", "Χρώμα", "Κατάσταση"});
         searchPanel.add(searchComboBox);
         searchField = new JTextField(20);
         searchPanel.add(searchField);
@@ -157,9 +157,6 @@ public class CarsFrame extends JFrame {
                         break;
                     case "Μάρκα":
                         match = car.getCarBrand().toLowerCase().contains(searchText);
-                        break;
-                    case "Τύπος":
-                        match = car.getType().toLowerCase().contains(searchText);
                         break;
                     case "Μοντέλο":
                         match = car.getModel().toLowerCase().contains(searchText);

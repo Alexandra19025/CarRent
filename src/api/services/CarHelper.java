@@ -10,8 +10,13 @@ import api.model.Car;
  * @version 0.1(2025.12.05)
  */
 public class CarHelper {
+    //Δομή AllCars για αποθήκευση όλων των αυτοκινήτων
     private AllCars allCars;
 
+    /**
+     * Κατασκευαστής
+     * @param allCars
+     */
     public CarHelper(AllCars allCars){
         this.allCars=allCars;
     }
